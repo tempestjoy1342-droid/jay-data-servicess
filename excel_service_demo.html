@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jay | Excel Data Services</title>
+<style>
+:root {
+  --site-primary: #176b57;
+  --site-on-primary: #ffffff;
+  --site-secondary: #e5f1eb;
+  --site-on-secondary: #173c32;
+  --site-background: #f7f8f4;
+  --site-on-background: #17231f;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, "Noto Sans Bengali", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, "Noto Sans Bengali", sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --surface: light-dark(#ffffff, #17221e);
+  --muted: light-dark(#65746d, #a8b6af);
+  --line: light-dark(#dfe7e1, #34443c);
+  --soft: light-dark(#f0f5f1, #202f28);
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
+#app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); overflow: hidden; }
+a { color: inherit; text-decoration: none; }
+.wrap { width: min(1120px, calc(100% - 40px)); margin: auto; }
+header { padding: calc(20px * var(--site-spacing-scale)) 0; }
+.nav { display:flex; align-items:center; justify-content:space-between; gap:18px; }
+.brand { display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:-.5px; }
+.logo { width:38px; height:38px; display:grid; place-items:center; color:var(--site-on-primary); background:var(--site-primary); border-radius: calc(12px * var(--site-radius-scale)); font-weight:900; }
+.navlinks { display:flex; align-items:center; gap:25px; color:var(--muted); font-size:14px; }
+.navlinks a:hover { color:var(--site-primary); }
+.btn { border:0; border-radius: calc(12px * var(--site-radius-scale)); padding:13px 18px; font:inherit; font-weight:700; cursor:pointer; display:inline-flex; justify-content:center; align-items:center; gap:8px; transition:transform .18s, opacity .18s; }
+.btn:hover { transform:translateY(-2px); }
+.btn-primary { background:var(--site-primary); color:var(--site-on-primary); }
+.btn-light { background:var(--site-secondary); color:var(--site-on-secondary); }
+.hero { padding: clamp(54px, 9vw, 105px) 0 74px; position:relative; }
+.hero-grid { display:grid; grid-template-columns:1.1fr .9fr; gap:54px; align-items:center; }
+.eyebrow { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:99px; background:var(--site-secondary); color:var(--site-on-secondary); font-size:13px; font-weight:700; }
+.dot { width:7px; height:7px; border-radius:50%; background:#36a77e; }
+h1 { font-family:var(--site-font-heading); font-size:calc(clamp(42px, 6vw, 66px) * var(--site-heading-scale)); line-height:1.08; letter-spacing:-2.6px; margin:22px 0 18px; }
+.accent { color:var(--site-primary); }
+.lead { font-size:17px; line-height:1.8; color:var(--muted); max-width:570px; }
+.actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+.trust { display:flex; gap:20px; flex-wrap:wrap; margin-top:30px; color:var(--muted); font-size:13px; }
+.trust span:before { content:'✓'; color:var(--site-primary); font-weight:900; margin-right:7px; }
+.mockup { background:var(--surface); border:1px solid var(--line); border-radius: calc(24px * var(--site-radius-scale)); padding:20px; box-shadow:0 22px 70px rgba(20,60,42,.10); transform:rotate(1deg); }
+.windowbar { display:flex; gap:6px; padding-bottom:16px; border-bottom:1px solid var(--line); }
+.windowbar i { width:8px; height:8px; border-radius:50%; background:#d8a16d; }
+.windowbar i:nth-child(2){background:#e6c66d}.windowbar i:nth-child(3){background:#79b58d}
+.sheet-title { display:flex; justify-content:space-between; align-items:center; margin:18px 0 14px; font-size:14px; font-weight:800; }
+.sheet-title small { color:var(--muted); font-weight:500; }
+.sheet { width:100%; border-collapse:collapse; font-size:12px; overflow:hidden; border-radius:10px; }
+.sheet th { background:var(--site-primary); color:white; text-align:left; padding:11px 9px; }
+.sheet td { padding:11px 9px; border-bottom:1px solid var(--line); }
+.sheet tr:nth-child(even) td { background:var(--soft); }
+.status { color:#23845e; font-weight:800; }
+.metric-row { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px; }
+.metric { background:var(--soft); border-radius:12px; padding:12px; }
+.metric b { display:block; font-size:19px; color:var(--site-primary); }
+.metric small { color:var(--muted); font-size:10px; }
+section { padding:74px 0; }
+.section-head { text-align:center; max-width:650px; margin:0 auto 36px; }
+.kicker { color:var(--site-primary); font-size:12px; font-weight:900; text-transform:uppercase; letter-spacing:1.6px; }
+h2 { font-size:calc(34px * var(--site-heading-scale)); letter-spacing:-1px; margin:10px 0 12px; }
+.section-head p { color:var(--muted); line-height:1.7; margin:0; }
+.cards { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.card { background:var(--surface); border:1px solid var(--line); border-radius:calc(18px * var(--site-radius-scale)); padding:25px; }
+.card-icon { width:44px; height:44px; border-radius:13px; background:var(--site-secondary); color:var(--site-primary); display:grid; place-items:center; font-size:21px; }
+.card h3 { margin:17px 0 8px; font-size:18px; }
+.card p { color:var(--muted); line-height:1.7; font-size:14px; margin:0; }
+.process { background:var(--soft); }
+.steps { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.step { padding:22px; }
+.number { width:34px; height:34px; display:grid; place-items:center; border-radius:50%; background:var(--site-primary); color:white; font-weight:800; }
+.step h3 { margin:14px 0 6px; }
+.step p { color:var(--muted); font-size:14px; line-height:1.7; }
+.cta { background:var(--site-primary); color:var(--site-on-primary); border-radius:calc(24px * var(--site-radius-scale)); padding:42px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+.cta p { opacity:.82; margin-bottom:0; }
+.cta .btn { background:white; color:#176b57; white-space:nowrap; }
+footer { padding:30px 0; color:var(--muted); font-size:13px; }
+.footer-row { display:flex; justify-content:space-between; gap:15px; flex-wrap:wrap; border-top:1px solid var(--line); padding-top:22px; }
+form { display:grid; gap:12px; margin-top:18px; }
+input, textarea, select { width:100%; border:1px solid var(--line); background:var(--surface); color:var(--site-on-background); padding:13px 14px; border-radius:11px; font:inherit; }
+textarea { min-height:95px; resize:vertical; }
+.form-note { color:var(--muted); font-size:12px; line-height:1.5; }
+@media (max-width:800px) { .hero-grid { grid-template-columns:1fr; gap:36px; } .mockup { max-width:560px; } .cards,.steps { grid-template-columns:1fr; } .navlinks { display:none; } .cta { align-items:flex-start; flex-direction:column; padding:30px; } }
+@media (max-width:480px) { .wrap { width:calc(100% - 28px); } h1 { letter-spacing:-1.8px; } .hero { padding-top:48px; } section { padding:55px 0; } .metric-row { gap:6px; } .metric { padding:9px; } .metric b { font-size:16px; } .sheet { font-size:10px; } .sheet td,.sheet th { padding:9px 6px; } }
+</style>
+</head>
+<body>
+<div id="app">
+<header><div class="wrap nav">
+  <a class="brand" href="#home"><span class="logo">J</span><span>JAY<span class="accent">.</span> DATA SERVICES</span></a>
+  <nav class="navlinks"><a href="#services">Services</a><a href="#process">How it works</a><a href="#contact">Contact</a></nav>
+  <a class="btn btn-primary" href="#contact">Get a quote ↗</a>
+</div></header>
+<main>
+<section class="hero" id="home"><div class="wrap hero-grid">
+  <div>
+    <span class="eyebrow"><span class="dot"></span> Reliable • Accurate • On time</span>
+    <h1>Turn messy data into <span class="accent">clear results.</span></h1>
+    <p class="lead">আপনার Excel Data Entry, Data Cleaning ও Report তৈরির কাজ নির্ভুলভাবে সম্পন্ন করতে সাহায্য করি। Save time and focus on growing your business.</p>
+    <div class="actions"><a class="btn btn-primary" href="#contact">Start a project ↗</a><a class="btn btn-light" href="#services">Explore services</a></div>
+    <div class="trust"><span>Careful data handling</span><span>Clear communication</span><span>On-time delivery</span></div>
+  </div>
+  <div class="mockup" aria-label="Sample spreadsheet preview">
+    <div class="windowbar"><i></i><i></i><i></i></div>
+    <div class="sheet-title"><span>Monthly Sales Report</span><small>Sample preview · XLSX</small></div>
+    <table class="sheet"><thead><tr><th>Product</th><th>Orders</th><th>Revenue</th><th>Status</th></tr></thead><tbody>
+      <tr><td>Product A</td><td>128</td><td>₹25,600</td><td class="status">Done ✓</td></tr>
+      <tr><td>Product B</td><td>96</td><td>₹19,200</td><td class="status">Done ✓</td></tr>
+      <tr><td>Product C</td><td>74</td><td>₹14,800</td><td class="status">Done ✓</td></tr>
+      <tr><td>Product D</td><td>52</td><td>₹10,400</td><td class="status">Done ✓</td></tr>
+    </tbody></table>
+    <div class="metric-row"><div class="metric"><b>350</b><small>Total orders</small></div><div class="metric"><b>₹70K</b><small>Total revenue</small></div><div class="metric"><b>100%</b><small>Reviewed</small></div></div>
+  </div>
+</div></section>
+<section id="services"><div class="wrap"><div class="section-head"><span class="kicker">What I can do</span><h2>Simple solutions for your data</h2><p>From everyday spreadsheet tasks to organised reports, get practical support tailored to your requirements.</p></div>
+  <div class="cards">
+    <article class="card"><div class="card-icon">▦</div><h3>Excel Data Entry</h3><p>Organised data entry, formatting, tables and spreadsheet updates with attention to detail.</p></article>
+    <article class="card"><div class="card-icon">⌕</div><h3>Data Cleaning</h3><p>Remove duplicates, fix inconsistent formats, arrange columns and make your data easier to use.</p></article>
+    <article class="card"><div class="card-icon">▤</div><h3>Reports & Formatting</h3><p>Clean summary reports, basic charts, sorting, filters and formulas for everyday business needs.</p></article>
+  </div>
+</div></section>
+<section class="process" id="process"><div class="wrap"><div class="section-head"><span class="kicker">How it works</span><h2>Three easy steps</h2><p>A straightforward process from your first message to final delivery.</p></div>
+  <div class="steps"><div class="step"><span class="number">1</span><h3>Share your task</h3><p>Tell me what you need and share a sample or instructions.</p></div><div class="step"><span class="number">2</span><h3>Review & confirm</h3><p>We agree on the scope, timeline and price before work begins.</p></div><div class="step"><span class="number">3</span><h3>Receive your file</h3><p>Get your completed Excel file and review the result.</p></div></div>
+</div></section>
+<section id="contact"><div class="wrap"><div class="cta"><div><span class="kicker" style="color:#c8eadb">LET'S WORK TOGETHER</span><h2>Have a data task in mind?</h2><p>Send a few details and let's discuss how I can help.</p></div><a class="btn" href="mailto:hello@example.com?subject=Excel%20Data%20Service%20Enquiry">Email me ↗</a></div>
+  <div style="max-width:650px;margin:35px auto 0;text-align:center"><h2 style="font-size:25px">Quick project enquiry</h2><p style="color:var(--muted);font-size:14px">Demo form — it opens your email app with your message.</p>
+    <form id="enquiry"><input id="name" placeholder="Your name" required><input id="email" type="email" placeholder="Your email" required><select id="service"><option>Excel Data Entry</option><option>Data Cleaning</option><option>Reports & Formatting</option><option>Other</option></select><textarea id="details" placeholder="Briefly describe your task" required></textarea><button class="btn btn-primary" type="submit">Prepare enquiry ↗</button><div class="form-note">Demo contact address: hello@example.com — replace this with your real email before publishing.</div></form>
+  </div>
+</div></section>
+</main>
+<footer><div class="wrap footer-row"><span>© 2026 Jay Data Services. Demo website.</span><span>Built with care · বাংলা + English</span></div></footer>
+</div>
+<script>
+document.getElementById('enquiry').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const service = document.getElementById('service').value;
+  const details = document.getElementById('details').value.trim();
+  const subject = encodeURIComponent('Project enquiry: ' + service);
+  const body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\nService: ' + service + '\n\nTask details:\n' + details);
+  window.location.href = 'mailto:hello@example.com?subject=' + subject + '&body=' + body;
+});
+</script>
+</body>
+</html>
